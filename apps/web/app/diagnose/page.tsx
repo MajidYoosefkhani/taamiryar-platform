@@ -1,24 +1,19 @@
 "use client";
 
-import Link from "next/link";
+import { Suspense, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { useState } from "react";
 
-export default function DiagnosePage() {
+function DiagnoseContent() {
   const searchParams = useSearchParams();
 
-  const device = searchParams.get("device");
-  const problem = searchParams.get("problem");
-
-  const [description, setDescription] = useState("");
+  const [problem, setProblem] = useState("");
   const [result, setResult] = useState("");
   const [loading, setLoading] = useState(false);
 
-  async function analyzeProblem() {
-    if (!description.trim()) {
-      setResult("لطفاً ابتدا مشکل دستگاه را با جزئیات بیشتری توضیح بده.");
-      return;
-    }
+  const device = searchParams.get("device") || "دستگاه شما";
+
+  async function handleDiagnose() {
+    if (!problem.trim()) return;
 
     setLoading(true);
     setResult("");
@@ -32,23 +27,14 @@ export default function DiagnosePage() {
         body: JSON.stringify({
           device,
           problem,
-          description,
         }),
       });
 
       const data = await response.json();
 
-      if (!response.ok) {
-        throw new Error(data.error || "خطا در تحلیل مشکل");
-      }
-
-      setResult(data.result);
-    } catch (error) {
-      setResult(
-        error instanceof Error
-          ? error.message
-          : "خطایی در تحلیل مشکل رخ داد."
-      );
+      setResult(data.result || "تحلیل انجام نشد.");
+    } catch {
+      setResult("خطایی رخ داد. دوباره تلاش کنید.");
     } finally {
       setLoading(false);
     }
@@ -57,100 +43,58 @@ export default function DiagnosePage() {
   return (
     <main
       dir="rtl"
-      className="min-h-screen bg-slate-950 text-white"
+      className="min-h-screen bg-slate-950 text-white px-6 py-12"
     >
-      <header className="border-b border-slate-800">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
-          <Link
-            href="/"
-            className="text-2xl font-bold text-cyan-400"
-          >
-            تعمیریار
-          </Link>
+      <div className="mx-auto max-w-3xl">
+        <h1 className="text-4xl font-bold text-cyan-400 mb-4">
+          تشخیص هوشمند خرابی
+        </h1>
 
-          <Link
-            href="/"
-            className="text-slate-400 transition hover:text-white"
-          >
-            ← صفحه اصلی
-          </Link>
-        </div>
-      </header>
+        <p className="text-slate-300 mb-8">
+          مشکل {device} را توضیح دهید تا تعمیریار آن را تحلیل کند.
+        </p>
 
-      <section className="mx-auto max-w-4xl px-6 py-16">
-        <div className="mb-12 text-center">
-          <div className="mb-6 text-6xl">
-            🤖
-          </div>
+        <textarea
+          value={problem}
+          onChange={(e) => setProblem(e.target.value)}
+          placeholder="مثلاً: یخچال من سرد نمی‌کند..."
+          className="w-full min-h-40 rounded-2xl bg-slate-900 border border-slate-700 p-4 text-white outline-none focus:border-cyan-400"
+        />
 
-          <h1 className="text-4xl font-bold">
-            تشخیص هوشمند مشکل
-          </h1>
-
-          <p className="mt-5 text-lg text-slate-400">
-            مشکل دستگاهت را توضیح بده تا تعمیریار آن را تحلیل کند.
-          </p>
-        </div>
-
-        <div className="mb-8 rounded-2xl border border-cyan-900 bg-cyan-950/30 p-6">
-          <p className="mb-2 text-sm text-slate-400">
-            دستگاه
-          </p>
-
-          <p className="font-bold text-cyan-400">
-            {device}
-          </p>
-
-          <p className="mb-2 mt-4 text-sm text-slate-400">
-            مشکل انتخاب‌شده
-          </p>
-
-          <p className="font-bold">
-            {problem}
-          </p>
-        </div>
-
-        <div className="rounded-2xl border border-slate-800 bg-slate-900 p-8">
-          <label className="mb-4 block text-lg font-bold">
-            مشکل را با جزئیات بیشتری توضیح بده
-          </label>
-
-          <textarea
-            value={description}
-            onChange={(event) =>
-              setDescription(event.target.value)
-            }
-            placeholder="مثلاً: دستگاه از دیروز روشن نمی‌شود و هیچ صدایی هم ندارد..."
-            className="min-h-40 w-full resize-none rounded-xl border border-slate-700 bg-slate-950 p-4 text-white outline-none transition focus:border-cyan-400"
-          />
-
-          <button
-            onClick={analyzeProblem}
-            disabled={loading}
-            className="mt-6 w-full rounded-xl bg-cyan-500 px-6 py-4 font-bold text-slate-950 transition hover:bg-cyan-400 disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            {loading
-              ? "🤖 تعمیریار در حال تحلیل است..."
-              : "🤖 تحلیل مشکل توسط تعمیریار"}
-          </button>
-        </div>
+        <button
+          onClick={handleDiagnose}
+          disabled={loading}
+          className="mt-4 rounded-xl bg-cyan-500 px-6 py-3 font-bold text-black disabled:opacity-50"
+        >
+          {loading ? "در حال تحلیل..." : "شروع تحلیل"}
+        </button>
 
         {result && (
-          <div className="mt-8 rounded-2xl border border-cyan-900 bg-cyan-950/30 p-6">
-            <div className="mb-3 text-3xl">
-              🤖
-            </div>
-
-            <h2 className="mb-3 text-xl font-bold">
-              تحلیل تعمیریار
+          <div className="mt-8 rounded-2xl border border-cyan-500/30 bg-slate-900 p-6">
+            <h2 className="mb-3 text-xl font-bold text-cyan-400">
+              نتیجه تحلیل
             </h2>
 
-            <p className="whitespace-pre-line leading-8 text-slate-300">
+            <p className="whitespace-pre-wrap text-slate-200">
               {result}
             </p>
           </div>
         )}
-      </section>
+      </div>
     </main>
+  );
+}
+
+export default function DiagnosePage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-slate-950 text-white flex items-center justify-center">
+          در حال بارگذاری...
+        </div>
+      }
+    >
+      <DiagnoseContent />
+    </Suspense>
   );
 }
