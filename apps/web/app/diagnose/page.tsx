@@ -13,7 +13,10 @@ function DiagnoseContent() {
   const device = searchParams.get("device") || "دستگاه شما";
 
   async function handleDiagnose() {
-    if (!problem.trim()) return;
+    if (!problem.trim()) {
+      setResult("لطفاً ابتدا مشکل دستگاه را توضیح بده.");
+      return;
+    }
 
     setLoading(true);
     setResult("");
@@ -32,9 +35,17 @@ function DiagnoseContent() {
 
       const data = await response.json();
 
-      setResult(data.result || "تحلیل انجام نشد.");
-    } catch {
-      setResult("خطایی رخ داد. دوباره تلاش کنید.");
+      if (!response.ok) {
+        throw new Error(data.error || "خطا در تحلیل");
+      }
+
+      setResult(data.result);
+    } catch (error) {
+      setResult(
+        error instanceof Error
+          ? error.message
+          : "خطایی در تحلیل مشکل رخ داد."
+      );
     } finally {
       setLoading(false);
     }
@@ -43,22 +54,22 @@ function DiagnoseContent() {
   return (
     <main
       dir="rtl"
-      className="min-h-screen bg-slate-950 text-white px-6 py-12"
+      className="min-h-screen bg-slate-950 px-6 py-12 text-white"
     >
       <div className="mx-auto max-w-3xl">
-        <h1 className="text-4xl font-bold text-cyan-400 mb-4">
+        <h1 className="mb-4 text-4xl font-bold text-cyan-400">
           تشخیص هوشمند خرابی
         </h1>
 
-        <p className="text-slate-300 mb-8">
-          مشکل {device} را توضیح دهید تا تعمیریار آن را تحلیل کند.
+        <p className="mb-8 text-slate-300">
+          مشکل {device} را توضیح بده تا تعمیریار آن را تحلیل کند.
         </p>
 
         <textarea
           value={problem}
           onChange={(e) => setProblem(e.target.value)}
-          placeholder="مثلاً: یخچال من سرد نمی‌کند..."
-          className="w-full min-h-40 rounded-2xl bg-slate-900 border border-slate-700 p-4 text-white outline-none focus:border-cyan-400"
+          placeholder="مثلاً: لباسشویی روشن نمی‌شود و هیچ صدایی ندارد..."
+          className="min-h-40 w-full rounded-2xl border border-slate-700 bg-slate-900 p-4 text-white outline-none focus:border-cyan-400"
         />
 
         <button
@@ -66,16 +77,16 @@ function DiagnoseContent() {
           disabled={loading}
           className="mt-4 rounded-xl bg-cyan-500 px-6 py-3 font-bold text-black disabled:opacity-50"
         >
-          {loading ? "در حال تحلیل..." : "شروع تحلیل"}
+          {loading ? "🤖 در حال تحلیل..." : "🤖 تحلیل مشکل"}
         </button>
 
         {result && (
           <div className="mt-8 rounded-2xl border border-cyan-500/30 bg-slate-900 p-6">
             <h2 className="mb-3 text-xl font-bold text-cyan-400">
-              نتیجه تحلیل
+              نتیجه تحلیل تعمیریار
             </h2>
 
-            <p className="whitespace-pre-wrap text-slate-200">
+            <p className="whitespace-pre-wrap leading-8 text-slate-200">
               {result}
             </p>
           </div>
@@ -89,7 +100,7 @@ export default function DiagnosePage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen bg-slate-950 text-white flex items-center justify-center">
+        <div className="flex min-h-screen items-center justify-center bg-slate-950 text-white">
           در حال بارگذاری...
         </div>
       }
