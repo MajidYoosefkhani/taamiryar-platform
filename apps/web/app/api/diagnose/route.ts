@@ -1,21 +1,31 @@
 import { NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
 
-const anthropic = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY,
-});
-
-console.log("API KEY EXISTS:", !!process.env.ANTHROPIC_API_KEY);
-console.log("API KEY PREFIX:", process.env.ANTHROPIC_API_KEY?.slice(0, 7));
-
-export async function POST(request: Request) {
+export async function POST(req: Request) {
   try {
-    const body = await request.json();
+    const apiKey = process.env.ANTHROPIC_API_KEY;
 
-    const device = body.device;
-    const problem = body.problem || body.description;
+    if (!apiKey) {
+      return NextResponse.json(
+        {
+          error: "ANTHROPIC_API_KEY is missing",
+        },
+        {
+          status: 500,
+        }
+      );
+    }
 
-    if (!problem) {
+    const anthropic = new Anthropic({
+      apiKey,
+    });
+
+    const body = await req.json();
+
+    const device = body.device ?? "نامشخص";
+    const problem = body.problem ?? body.description ?? "";
+
+    if (!problem.trim()) {
       return NextResponse.json(
         {
           error: "توضیحات مشکل وارد نشده است",
@@ -26,52 +36,50 @@ export async function POST(request: Request) {
       );
     }
 
-    const message = await anthropic.messages.create({
+    const response = await anthropic.messages.create({
       model: "claude-sonnet-4-20250514",
-      max_tokens: 1000,
+      max_tokens: 800,
       messages: [
         {
           role: "user",
           content: `
-تو دستیار هوشمند سایت تعمیریار هستی.
+تو یک تعمیرکار حرفه‌ای هستی.
 
 دستگاه:
-${device || "نامشخص"}
+${device}
 
-مشکل:
+شرح مشکل:
 ${problem}
 
-لطفاً مشکل را به زبان فارسی تحلیل کن و پاسخ را در این ساختار بده:
+به فارسی پاسخ بده و شامل موارد زیر باشد:
 
-1. احتمال اصلی خرابی
-2. دلایل احتمالی
-3. چند بررسی ساده که کاربر می‌تواند انجام دهد
-4. آیا نیاز به تعمیرکار متخصص دارد یا نه
-
-پاسخ واضح، کاربردی و قابل فهم باشد.
-          `,
+1- علت‌های احتمالی
+2- روش‌های تست ساده
+3- میزان خطر
+4- آیا نیاز به تعمیرکار دارد؟
+`,
         },
       ],
     });
 
-    const result =
-      message.content[0].type === "text"
-        ? message.content[0].text
-        : "تحلیل انجام نشد.";
+    const text =
+      response.content[0].type === "text"
+        ? response.content[0].text
+        : "پاسخی دریافت نشد.";
 
     return NextResponse.json({
-      result,
+      result: text,
     });
-  } catch (error: any) {
-  console.error(error);
+  } catch (err: any) {
+    console.error(err);
 
-  return NextResponse.json(
-    {
-      error: error?.message || String(error),
-    },
-    {
-      status: 500,
-    }
-   );
+    return NextResponse.json(
+      {
+        error: err?.message ?? String(err),
+      },
+      {
+        status: 500,
+      }
+    );
   }
 }
