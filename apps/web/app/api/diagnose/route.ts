@@ -59,16 +59,16 @@ ${problem}
     return NextResponse.json({
       result,
     });
-  } catch (error) {
-    console.error(error);
+  } catch (error: any) {
+  console.error(error);
 
-    return NextResponse.json(
-      {
-        error: "خطا در اتصال به هوش مصنوعی",
-      },
-      {
-        status: 500,
-      }
-    );
+  return NextResponse.json(
+    {
+      error: error?.message || String(error),
+    },
+    {
+      status: 500,
+    }
+   );
   }
 }
