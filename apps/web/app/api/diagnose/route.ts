@@ -5,6 +5,9 @@ const anthropic = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
 });
 
+console.log("API KEY EXISTS:", !!process.env.ANTHROPIC_API_KEY);
+console.log("API KEY PREFIX:", process.env.ANTHROPIC_API_KEY?.slice(0, 7));
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();
