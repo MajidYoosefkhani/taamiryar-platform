@@ -16,9 +16,9 @@ export default function Hero() {
 
       </div>
 
-      <Container className="relative flex min-h-[88vh] items-center">
+      <Container className="relative flex min-h-[88vh] items-center justify-center">
 
-        <div className="grid w-full gap-20 lg:grid-cols-2">
+        <div className="mx-auto grid w-full max-w-6xl items-center gap-16 lg:grid-cols-2">
 
           <div className="flex flex-col justify-center">
 
