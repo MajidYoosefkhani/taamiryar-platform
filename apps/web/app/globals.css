@@ -2,19 +2,37 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 @custom-variant dark (&:is(.dark *));
-:root { color-scheme: dark; --ty-bg:#071522; --ty-surface:#0d2030; --ty-line:rgba(166,202,220,.13); --ty-text:#eff8fb; --ty-muted:#9bb1bf; --ty-cyan:#48d7d0; }
-* { box-sizing:border-box; }
-html { scroll-behavior:smooth; background:var(--ty-bg); }
-body { margin:0; min-height:100%; background:var(--ty-bg); color:var(--ty-text); font-family:Tahoma,Arial,var(--font-geist-sans),sans-serif; text-rendering:optimizeLegibility; }
-button,input,textarea,select { font:inherit; }
-button,a { -webkit-tap-highlight-color:transparent; }
-a { color:inherit; text-decoration:none; }
-::selection { background:rgba(72,215,208,.28); color:white; }
-@theme inline { --color-background:var(--ty-bg); --color-foreground:var(--ty-text); --font-sans:var(--font-geist-sans); --font-mono:var(--font-geist-mono); }
-.ty-container { width:min(100% - 40px,1160px); margin-inline:auto; }
-.ty-panel { border:1px solid var(--ty-line); background:linear-gradient(145deg,rgba(17,43,61,.92),rgba(10,29,44,.92)); box-shadow:0 24px 80px rgba(0,0,0,.18); }
-.ty-gradient-text { background:linear-gradient(100deg,#71e5dc 0%,#64c9f1 55%,#9ba9ff 100%); -webkit-background-clip:text; background-clip:text; color:transparent; }
-.ty-grid-bg { background-image:linear-gradient(rgba(126,183,207,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(126,183,207,.045) 1px,transparent 1px); background-size:44px 44px; mask-image:linear-gradient(to bottom,black,transparent 85%); }
-.ty-focus:focus-visible { outline:3px solid rgba(72,215,208,.65); outline-offset:3px; }
-@media(min-width:768px){.ty-container{width:min(100% - 64px,1160px);}}
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;}}
+:root{color-scheme:light;--paper:#f5f1e8;--ink:#202824;--muted:#66716a;--line:#dedbd1;--orange:#f15b3b;--lime:#c8e36b;--blue:#3858d6}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;background:var(--paper)}
+body{margin:0;min-height:100%;background:var(--paper);color:var(--ink);font-family:Tahoma,Arial,var(--font-geist-sans),sans-serif;text-rendering:optimizeLegibility}
+button,input,textarea,select{font:inherit}
+button,a{-webkit-tap-highlight-color:transparent}
+a{color:inherit;text-decoration:none}
+::selection{background:#f15b3b;color:white}
+@theme inline{--color-background:var(--paper);--color-foreground:var(--ink);--font-sans:var(--font-geist-sans);--font-mono:var(--font-geist-mono)}
+.ty-container{width:min(100% - 36px,1200px);margin-inline:auto}
+.ty-focus:focus-visible{outline:3px solid var(--blue);outline-offset:4px}
+.ty-display{font-weight:950;letter-spacing:-.055em;line-height:1.28}
+.ty-kicker{font-size:.75rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.ty-section{padding-block:clamp(4.5rem,9vw,8rem)}
+.ty-card{border:1px solid var(--line);border-radius:1.5rem;background:#fffdf8;box-shadow:0 10px 35px rgba(34,40,34,.045)}
+.ty-orange{background:var(--orange);color:#fff}
+.ty-ink{background:var(--ink);color:#fff}
+.ty-marquee{display:flex;width:max-content;animation:ty-marquee 32s linear infinite}
+.ty-float{animation:ty-float 6s ease-in-out infinite}
+.ty-drift{animation:ty-drift 9s ease-in-out infinite}
+.ty-enter{animation:ty-enter .8s cubic-bezier(.2,.75,.25,1) both}
+.ty-enter-delay{animation:ty-enter .9s .16s cubic-bezier(.2,.75,.25,1) both}
+.ty-pulse-dot{animation:ty-pulse 2s ease-in-out infinite}
+.ty-arrow{transition:transform .25s ease}
+a:hover .ty-arrow,button:hover .ty-arrow{transform:translateX(-4px)}
+.ty-outline{border:1px solid rgba(32,40,36,.2)}
+.ty-noise{background-image:radial-gradient(rgba(32,40,36,.11) .65px,transparent .65px);background-size:7px 7px}
+@keyframes ty-marquee{to{transform:translateX(50%)}}
+@keyframes ty-float{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-13px) rotate(1deg)}}
+@keyframes ty-drift{0%,100%{transform:translate(0,0)}50%{transform:translate(12px,-10px)}}
+@keyframes ty-enter{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+@keyframes ty-pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.45;transform:scale(.78)}}
+@media(min-width:768px){.ty-container{width:min(100% - 64px,1200px)}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
