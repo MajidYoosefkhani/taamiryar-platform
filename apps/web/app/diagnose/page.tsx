@@ -3,17 +3,32 @@
 import { Suspense, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
+const deviceNames: Record<string, string> = {
+  "washing-machine": "ماشین لباسشویی",
+  refrigerator: "یخچال",
+  television: "تلویزیون",
+  mobile: "موبایل",
+  laptop: "لپ‌تاپ",
+  car: "خودرو",
+  dishwasher: "ماشین ظرفشویی",
+  vacuum: "جاروبرقی",
+};
+
 function DiagnoseContent() {
   const searchParams = useSearchParams();
+  const deviceSlug = searchParams.get("device") || "";
+  const device = deviceNames[deviceSlug] || deviceSlug || "دستگاه شما";
 
-  const [problem, setProblem] = useState("");
+  const [problem, setProblem] = useState(
+    () => searchParams.get("problem") || ""
+  );
   const [result, setResult] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const device = searchParams.get("device") || "دستگاه شما";
-
   async function handleDiagnose() {
-    if (!problem.trim()) {
+    const description = problem.trim();
+
+    if (!description) {
       setResult("لطفاً ابتدا مشکل دستگاه را توضیح بده.");
       return;
     }
@@ -27,24 +42,21 @@ function DiagnoseContent() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          device,
-          problem,
-        }),
+        body: JSON.stringify({ device, problem: description }),
       });
 
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || "خطا در تحلیل");
+        throw new Error(data.error || "در تحلیل مشکل خطایی رخ داد.");
       }
 
-      setResult(data.result);
+      setResult(data.result || "پاسخی از سرویس دریافت نشد.");
     } catch (error) {
       setResult(
         error instanceof Error
           ? error.message
-          : "خطایی در تحلیل مشکل رخ داد."
+          : "ارتباط با سرویس تشخیص برقرار نشد."
       );
     } finally {
       setLoading(false);
@@ -67,10 +79,15 @@ function DiagnoseContent() {
 
         <textarea
           value={problem}
-          onChange={(e) => setProblem(e.target.value)}
+          onChange={(event) => setProblem(event.target.value)}
           placeholder="مثلاً: لباسشویی روشن نمی‌شود و هیچ صدایی ندارد..."
+          maxLength={1500}
           className="min-h-40 w-full rounded-2xl border border-slate-700 bg-slate-900 p-4 text-white outline-none focus:border-cyan-400"
         />
+
+        <p className="mt-2 text-left text-xs text-slate-500">
+          {problem.length}/1500
+        </p>
 
         <button
           onClick={handleDiagnose}
