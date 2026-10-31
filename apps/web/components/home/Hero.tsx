@@ -1,202 +1,23 @@
 import Link from "next/link";
+import { ArrowLeft, ArrowUpLeft, BadgeCheck, Bot, ClipboardList, SearchCheck, ShieldCheck, Sparkles } from "lucide-react";
 import Container from "../layout/Container";
-import Button from "../ui/button";
-
-export default function Hero() {
-  return (
-    <section className="relative overflow-hidden bg-slate-950 text-white">
-
-      <div className="absolute inset-0">
-
-        <div className="absolute left-1/2 top-0 h-[700px] w-[700px] -translate-x-1/2 rounded-full bg-cyan-500/20 blur-[180px]" />
-
-        <div className="absolute bottom-0 right-0 h-[500px] w-[500px] rounded-full bg-indigo-500/20 blur-[180px]" />
-
-        <div className="absolute left-0 top-1/2 h-[450px] w-[450px] rounded-full bg-sky-400/10 blur-[180px]" />
-
-      </div>
-
-      <Container className="relative flex min-h-[88vh] items-center justify-center">
-
-        <div className="mx-auto grid w-full max-w-6xl items-center gap-16 lg:grid-cols-2">
-
-          <div className="flex flex-col justify-center">
-
-            <span className="mb-5 w-fit rounded-full border border-cyan-400/30 bg-cyan-400/10 px-5 py-2 text-sm text-cyan-300">
-
-              ✨ اولین پلتفرم تعمیرات مجهز به هوش مصنوعی
-
-            </span>
-
-            <h1 className="text-5xl font-black leading-tight lg:text-7xl">
-
-              تعمیرات
-
-              <br />
-
-              <span className="bg-gradient-to-r from-cyan-300 via-sky-400 to-indigo-400 bg-clip-text text-transparent">
-
-                هوشمند
-
-              </span>
-
-              <br />
-
-              برای همه
-
-            </h1>
-
-            <p className="mt-8 max-w-xl text-lg leading-9 text-slate-300">
-
-              قبل از تماس با تعمیرکار، تنها با چند جمله علت احتمالی خرابی
-              دستگاهت را توسط هوش مصنوعی بررسی کن و بهترین راه‌حل را بگیر.
-
-            </p>
-
-            <div className="mt-12 flex flex-wrap gap-5">
-
-              <Link href="/diagnose">
-
-                <Button>
-
-                  شروع تشخیص هوشمند
-
-                </Button>
-
-              </Link>
-
-              <Button variant="secondary">
-
-                مشاهده خدمات
-
-              </Button>
-
-            </div>
-
-            <div className="mt-16 flex gap-12">
-
-              <div>
-
-                <h2 className="text-4xl font-black text-cyan-300">
-
-                  +1200
-
-                </h2>
-
-                <p className="text-slate-400">
-
-                  تعمیرکار
-
-                </p>
-
-              </div>
-
-              <div>
-
-                <h2 className="text-4xl font-black text-cyan-300">
-
-                  +50000
-
-                </h2>
-
-                <p className="text-slate-400">
-
-                  تشخیص
-
-                </p>
-
-              </div>
-
-              <div>
-
-                <h2 className="text-4xl font-black text-cyan-300">
-
-                  98%
-
-                </h2>
-
-                <p className="text-slate-400">
-
-                  رضایت
-
-                </p>
-
-              </div>
-
-            </div>
-
-          </div>
-
-          <div className="flex items-center justify-center">
-
-            <div className="relative">
-
-              <div className="absolute inset-0 rounded-[40px] bg-cyan-400/30 blur-3xl" />
-
-              <div className="relative w-[360px] rounded-[40px] border border-white/10 bg-white/5 p-8 backdrop-blur-xl">
-
-                <div className="mb-6 flex items-center gap-4">
-
-                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-cyan-400 text-3xl">
-
-                    🤖
-
-                  </div>
-
-                  <div>
-
-                    <h3 className="font-bold">
-
-                      AI Assistant
-
-                    </h3>
-
-                    <p className="text-sm text-slate-400">
-
-                      آنلاین
-
-                    </p>
-
-                  </div>
-
-                </div>
-
-                <div className="space-y-5">
-
-                  <div className="rounded-2xl bg-slate-900 p-4">
-
-                    سلام 👋
-
-                    <br />
-
-                    چه دستگاهی خراب شده؟
-
-                  </div>
-
-                  <div className="rounded-2xl bg-cyan-500 p-4 text-slate-950">
-
-                    ماشین لباسشویی
-
-                  </div>
-
-                  <div className="rounded-2xl bg-slate-900 p-4">
-
-                    لطفاً مشکل را توضیح بده...
-
-                  </div>
-
-                </div>
-
-              </div>
-
-            </div>
-
-          </div>
-
-        </div>
-
-      </Container>
-
-    </section>
-  );
+export default function Hero(){
+ return <section className="relative isolate overflow-hidden border-b border-white/[.06]">
+  <div className="ty-grid-bg pointer-events-none absolute inset-0 -z-10"/><div className="pointer-events-none absolute -right-40 top-0 -z-10 h-[430px] w-[430px] rounded-full bg-cyan-400/[.12] blur-[120px]"/><div className="pointer-events-none absolute -bottom-48 left-0 -z-10 h-[420px] w-[420px] rounded-full bg-blue-500/[.12] blur-[130px]"/>
+  <Container className="grid min-h-[650px] items-center gap-14 py-16 md:py-20 lg:grid-cols-[1.05fr_.95fr] lg:gap-16">
+   <div className="max-w-2xl"><div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#55d8d0]/20 bg-[#55d8d0]/[.08] px-4 py-2 text-xs font-semibold text-[#8ae8e1] sm:text-sm"><Sparkles size={15}/> تشخیص هوشمند، انتخاب آگاهانه متخصص</div>
+    <h1 className="text-[2.55rem] font-black leading-[1.45] tracking-tight text-white sm:text-5xl sm:leading-[1.4] lg:text-[3.65rem]">تعمیر درست،<br/><span className="ty-gradient-text">از تشخیص درست</span> شروع می‌شود.</h1>
+    <p className="mt-6 max-w-xl text-base leading-8 text-slate-300 sm:text-lg sm:leading-9">مشکل دستگاهت را قدم‌به‌قدم بررسی کن، راهنمایی اولیه بگیر و برای ادامه کار، متخصص مناسب را با اطلاعات شفاف‌تری انتخاب کن.</p>
+    <div className="mt-8 flex flex-col gap-3 min-[430px]:flex-row"><Link href="/diagnose" className="ty-focus inline-flex min-h-14 items-center justify-center gap-3 rounded-2xl bg-[#55d8d0] px-6 text-base font-extrabold text-[#06202b] shadow-xl shadow-cyan-500/10 transition hover:-translate-y-0.5 hover:bg-[#7ce9e1]">عیب‌یابی دستگاه من <ArrowLeft size={19}/></Link><a href="#services" className="ty-focus inline-flex min-h-14 items-center justify-center gap-2 rounded-2xl border border-white/15 bg-white/[.03] px-6 text-sm font-bold text-white transition hover:border-[#55d8d0]/50 hover:bg-white/[.06]">مشاهده خدمات <ArrowUpLeft size={17}/></a></div>
+    <div className="mt-9 flex flex-wrap gap-x-6 gap-y-3 text-xs text-slate-400 sm:text-sm"><span className="inline-flex items-center gap-2"><ShieldCheck size={16} className="text-[#68ded5]"/> راهنمایی با تأکید بر ایمنی</span><span className="inline-flex items-center gap-2"><BadgeCheck size={16} className="text-[#68ded5]"/> انتخاب آگاهانه متخصص</span></div>
+   </div>
+   <div className="relative mx-auto w-full max-w-[470px]"><div className="pointer-events-none absolute inset-8 rounded-[36px] bg-cyan-400/10 blur-3xl"/>
+    <div className="ty-panel relative overflow-hidden rounded-[30px] p-5 sm:rounded-[34px] sm:p-7">
+     <div className="flex items-center justify-between border-b border-white/10 pb-5"><div className="flex items-center gap-3"><div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#55d8d0]/15 text-[#72e4dc]"><Bot size={25}/></div><div><p className="font-bold text-white">دستیار عیب‌یابی تعمیریار</p><p className="mt-1 text-xs text-slate-400">نمونه مسیر تشخیص تعاملی</p></div></div><span className="rounded-full border border-emerald-400/20 bg-emerald-400/10 px-3 py-1 text-[10px] text-emerald-300">راهنمای مرحله‌ای</span></div>
+     <div className="space-y-4 py-6"><div className="flex gap-3"><span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-[#55d8d0]/15 text-[#73e4dc]"><Bot size={17}/></span><div className="max-w-[85%] rounded-2xl rounded-tr-md bg-[#142d3e] px-4 py-3 text-sm leading-7 text-slate-100">برای شروع، نوع دستگاه و نشانه‌ای که مشاهده می‌کنی را انتخاب کن.</div></div><div className="mr-10 rounded-2xl rounded-tl-md border border-[#55d8d0]/20 bg-[#55d8d0]/[.08] px-4 py-3 text-sm text-[#a5f0e9]">ماشین لباسشویی</div><div className="flex gap-3"><span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-[#55d8d0]/15 text-[#73e4dc]"><ClipboardList size={17}/></span><div className="max-w-[85%] rounded-2xl rounded-tr-md bg-[#142d3e] px-4 py-3 text-sm leading-7 text-slate-100">متوجه شدم. دستگاه روشن می‌شود اما آب را تخلیه نمی‌کند؟</div></div><div className="mr-10 flex flex-wrap gap-2"><span className="rounded-xl border border-[#55d8d0]/30 bg-[#55d8d0]/10 px-3 py-2 text-xs text-[#9cece5]">بله، همین‌طور است</span><span className="rounded-xl border border-white/10 px-3 py-2 text-xs text-slate-300">خیر، مشکل دیگری است</span></div></div>
+     <div className="rounded-2xl border border-white/10 bg-[#071522]/70 p-4"><div className="mb-3 flex items-center justify-between text-xs text-slate-400"><span>مسیر بررسی مشکل</span><span>مرحله ۱ از ۳</span></div><div className="h-1.5 overflow-hidden rounded-full bg-white/10"><div className="h-full w-1/3 rounded-full bg-gradient-to-l from-[#55d8d0] to-[#61b9f2]"/></div><div className="mt-4 flex items-center gap-2 text-xs text-slate-400"><SearchCheck size={15} className="text-[#70ded6]"/> بررسی اولیه، بدون ادعای تشخیص قطعی</div></div>
+    </div><div className="absolute -bottom-5 -left-2 hidden items-center gap-2 rounded-2xl border border-white/10 bg-[#10283a] px-4 py-3 text-xs text-slate-200 shadow-xl sm:flex"><ShieldCheck size={17} className="text-[#65ddd5]"/> ایمنی و شفافیت در اولویت</div>
+   </div>
+  </Container>
+ </section>;
 }
